@@ -1,101 +1,116 @@
-import Image from "next/image";
+"use client"
+
+import { ACCESS_TOKEN } from "@/constants";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Button } from "@/components/ui/button";
+import { Moon, MoveRight, Play, Search, Star } from 'lucide-react'
+
+type MovieType = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
+  const [popularMovieList, setPopularMovieList] = useState<MovieType[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+  const getNowPlayingMovies = async () => {
+    const nowPlayingMovies = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`
+        }
+      }
+    );
+
+    setNowPlayingMovieList(nowPlayingMovies.data.results)
+    console.log(nowPlayingMovies)
+  };
+  useEffect(() => {
+    getNowPlayingMovies();
+  }, []);
+
+  const getPopularMovies = async () => {
+    const popularMovie = await axios.get('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1',
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`
+        }
+      }
+    );
+    setPopularMovieList(popularMovie.data.results)
+    // console.log(popularMovie)
+
+  };
+  useEffect(() => {
+    getPopularMovies();
+  }, []);
+
+  return (
+    <div>
+      {
+        nowPlayingMovieList.slice(0, 1).map((nowPlayingMovie) => {
+          return <div className="w-[375px] mx-auto">
+            <div className="w-full flex justify-between p-5">
+              <img src="/assets/logo.svg" />
+              <div className="flex gap-3">
+                <div className="w-9 h-9 border border-gray-200 rounded-lg flex justify-center items-center">
+                  <Search size={20} strokeWidth={1} />
+                </div>
+                <div className="w-9 h-9 border border-gray-200 rounded-lg flex justify-center items-center">
+                  <Moon size={20} strokeWidth={1} />
+                </div>
+              </div>
+            </div>
+            <div key={nowPlayingMovie.id} className="">
+              <img className="w-full" src={`https://image.tmdb.org/t/p/original${nowPlayingMovie.poster_path}`} />
+              <div className="p-5">
+                <div className="flex justify-between">
+                  <div>
+                    <p className="fontInter text-sm font-normal">Now Playing:</p>
+                    <h1 className="fontInter font-semibold text-2xl">{nowPlayingMovie.title}</h1>
+                  </div>
+                  <div className="flex gap-0.5 items-center">
+                    <Star size={28} color="#fad105" fill="#fad105" />
+                    <p>{nowPlayingMovie.vote_average.toFixed(1)}/10</p>
+                  </div>
+                </div>
+                <p className="fontInter font-normal py-4">{nowPlayingMovie.overview}</p>
+                <Button className="bg-black text-white p-2 w-[145px] text-sm"> <Play />Watch Trailer</Button>
+              </div>
+            </div>
+            <div className="flex justify-between items-center py-8 px-5">
+              <h1 className="fontInter text-2xl semibold">Popular</h1>
+              <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
+            </div>
+            <div className="grid grid-cols-2">
+              {
+                popularMovieList.slice(0, 10).map((popularMovie) => {
+                  return <div key={popularMovie.id}>
+                    <img src={`https://image.tmdb.org/t/p/original${popularMovie.poster_path}`} />
+                    <p>{popularMovie.vote_average.toFixed(1)}/10</p>
+                    <h1>{popularMovie.title}</h1>
+                  </div>
+                })
+              }
+            </div>
+          </div>
+        })
+      }
     </div>
   );
 }
