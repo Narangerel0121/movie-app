@@ -3,20 +3,13 @@
 import { ACCESS_TOKEN } from "@/constants";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "@/components/ui/button";
-import { Film, Moon, MoveRight, Play, Search, Star } from "lucide-react";
 import { Footer } from "@/components/code/Footer"
 import { Header } from "@/components/code/Header";
 import { Popular } from "@/components/code/Popular";
 import { Upcoming } from "@/components/code/Upcoming";
 import { TopRated } from "@/components/code/TopRated";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import GenreSelector from "@/components/code/GenreSelector";
+import { NowPlaying } from "@/components/code/NowPlaying";
 
 export type MovieType = {
   adult: boolean;
@@ -35,13 +28,8 @@ export type MovieType = {
   vote_count: number;
 }
 
-type GenreType = {
-  id: number;
-  name: string;
-}
 export default function Home() {
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
-  const [genreList, setGenreList] = useState<GenreType[]>([]);
 
   const getNowPlayingMovies = async () => {
     const nowPlayingMovies = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
@@ -56,44 +44,15 @@ export default function Home() {
     console.log(nowPlayingMovies)
   };
 
-  const getGenreList = async () => {
-
-    const genres = await axios.get(
-      'https://api.themoviedb.org/3/genre/movie/list',
-      {
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`
-        },
-      }
-    );
-
-    setGenreList(genres.data.genres)
-    console.log(genres)
-  }
-
   useEffect(() => {
     getNowPlayingMovies();
-    getGenreList();
   }, []);
 
   return (
     <div className="w-[375px] mx-auto">
       <Header />
-
-      <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Genre" />
-        </SelectTrigger>
-        <SelectContent>
-          {
-          genreList.map((genre) => (
-          <SelectItem value={String(genre.id)}>{genre.name}</SelectItem> 
-          ))}
-        </SelectContent>
-      </Select>
-
-
-      <div>
+      <GenreSelector />
+      {/* <div>
         {
           nowPlayingMovieList.slice(0, 1).map((nowPlayingMovie) => {
             return <div className="w-[375px] mx-auto">
@@ -117,7 +76,8 @@ export default function Home() {
             </div>
           })
         }
-      </div>
+      </div> */}
+      <NowPlaying />
       <Upcoming />
       <TopRated />
       <Popular />

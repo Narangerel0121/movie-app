@@ -2,26 +2,18 @@ import { MoveRight, Star } from "lucide-react"
 import { Button } from "../ui/button"
 import { useEffect, useState } from "react";
 import { MovieType } from "@/app/page";
-import axios from "axios";
-import { ACCESS_TOKEN } from "@/constants";
+import { instance } from "@/app/utils/axios-instance";
 
 export const Upcoming = () => {
     const [upcomingMovieList, setUpcomingMovieList] = useState<MovieType[]>([]);
-    const getUpcomingMovies = async () => {
-        const upcomingMovie = await axios.get('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1',
-          {
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`
-            }
-          }
-        );
+    const getTopRatedMovies = async () => {
+        const upcomingMovie = await instance.get("/movie/upcoming?language=en-US&page=1")
         setUpcomingMovieList(upcomingMovie.data.results)
-        // console.log(upcomingMovie)
-    
-      };
+    }
       useEffect(() => {
-        getUpcomingMovies();
+        getTopRatedMovies();
       }, []);
+
     return (
         <div>
             <div className="flex justify-between items-center py-8 px-5">
