@@ -3,6 +3,7 @@ import { Button } from "../ui/button"
 import { useEffect, useState } from "react";
 import { MovieType } from "@/app/page";
 import { instance } from "@/app/utils/axios-instance";
+import Link from "next/link";
 
 export const Popular = () => {
     const [popularMovieList, setPopularMovieList] = useState<MovieType[]>([]);
@@ -23,7 +24,7 @@ export const Popular = () => {
             <div className="grid grid-cols-2 px-5 gap-5 ">
                 {
                     popularMovieList.slice(0, 10).map((popularMovie) => {
-                        return <div key={popularMovie.id} className="border border-transparent bg-gray-100 rounded-lg">
+                        return <div key={popularMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${popularMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${popularMovie.poster_path}`} className="rounded-t-lg" />
                             <div className="p-2">
                                 <div className="flex items-center gap-0.5 pb-1">
@@ -32,6 +33,7 @@ export const Popular = () => {
                                 </div>
                                 <h1 className="text-sm text-normal">{popularMovie.title}</h1>
                             </div>
+                            </Link>
                         </div>
                     })
                 }

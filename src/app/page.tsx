@@ -10,6 +10,8 @@ import { Upcoming } from "@/components/code/Upcoming";
 import { TopRated } from "@/components/code/TopRated";
 import GenreSelector from "@/components/code/GenreSelector";
 import { NowPlaying } from "@/components/code/NowPlaying";
+import { Button } from "@/components/ui/button";
+import { Star, Play } from "lucide-react";
 
 export type MovieType = {
   adult: boolean;
@@ -52,7 +54,7 @@ export default function Home() {
     <div className="w-[375px] mx-auto">
       <Header />
       <GenreSelector />
-      {/* <div>
+      <div>
         {
           nowPlayingMovieList.slice(0, 1).map((nowPlayingMovie) => {
             return <div className="w-[375px] mx-auto">
@@ -70,14 +72,14 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="fontInter font-normal py-4">{nowPlayingMovie.overview}</p>
-                  <Button className="bg-black text-white p-2 w-[145px] text-sm"> <Play />Watch Trailer</Button>
+                  <Button className="bg-black text-white p-2 w-[145px] text-sm"><Play size={16} strokeWidth={1} />Watch Trailer</Button>
                 </div>
               </div>
             </div>
           })
         }
-      </div> */}
-      <NowPlaying />
+      </div>
+      {/* <NowPlaying /> */}
       <Upcoming />
       <TopRated />
       <Popular />
