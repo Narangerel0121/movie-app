@@ -43,7 +43,7 @@ export default function Home() {
     );
 
     setNowPlayingMovieList(nowPlayingMovies.data.results)
-    console.log(nowPlayingMovies)
+    // console.log(nowPlayingMovies)
   };
 
   useEffect(() => {

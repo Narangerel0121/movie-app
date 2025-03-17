@@ -25,17 +25,18 @@ type ChosenMovieType = {
 type GenreType = {
     id?: number;
     name: string;
-}[]
+}
 
 type CrewType = {
     name: string;
     job: string;
-}[]
+    id: number;
+}
 
 type CastType = {
     name: string;
     job: string;
-}[]
+}
 
 // type IdType = {
 //     id: number
@@ -84,7 +85,7 @@ export default function Page() {
     const getCrewList = async () => {
         const res = await instance.get(`/movie/${params.moviedetails}/credits?language=en-US`);
         setCrewList(res.data.crew);
-        // console.log(res.data.crew)
+        // console.log(res.data.crew, 'crew')
     }
 
     const getCastList = async () => {
@@ -96,7 +97,7 @@ export default function Page() {
     const getGenreList = async () => {
         const res = await instance.get(`/movie/${params.moviedetails}?language=en-US`);
         setGenreList(res.data.genres)
-        console.log(res.data, "here")
+        // console.log(res.data, "here")
     }
 
     useEffect(() => {
@@ -132,7 +133,7 @@ export default function Page() {
             <div className='flex justify-between gap-[34px] mx-5 mb-5'>
                 <img src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`} className='w-[100px] h-[148px]' />
                 <div className=''>
-                    <div className='flex mb-5 font-semibold text-xs gap-3 items-center'>{genreList?.map((genre) => {
+                    <div className='flex mb-5 font-semibold text-xs gap-3 items-center flex-wrap'>{genreList?.map((genre) => {
                         return (
                             <div className='border border-gray-400 rounded-full py-0.5 px-2.5' key={genre.id}>{genre.name}</div>
                         )
@@ -148,7 +149,7 @@ export default function Page() {
                         {crewList.map((crew) => {
                             if (crew.job === "Director") {
                                 return (
-                                    <p>{crew.name}</p>
+                                    <p key={crew.id}>{crew.name}</p>
                                 )
                             }
                             // {crew.job === "Director" && <p>{crew.name}</p>}
@@ -162,7 +163,7 @@ export default function Page() {
                         {crewList.map((crew) => {
                             if (crew.job === "Writer") {
                                 return (
-                                    <p>{crew.name}</p>
+                                    <p key={crew.id}>{crew.name}</p>
                                 )
                             }
                             // {crew.job === "Director" && <p>{crew.name}</p>}
