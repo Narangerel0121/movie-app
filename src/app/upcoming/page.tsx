@@ -1,26 +1,25 @@
+"use client"
 import { MoveRight, Star } from "lucide-react"
-import { Button } from "../ui/button"
 import { useEffect, useState } from "react";
 import { MovieType } from "@/app/page";
 import { instance } from "@/app/utils/axios-instance";
 import Link from "next/link";
-
+import { Button } from "@/components/ui/button";
 export const Upcoming = () => {
     const [upcomingMovieList, setUpcomingMovieList] = useState<MovieType[]>([]);
-    const getTopRatedMovies = async () => {
+    const getUpcomingMovies = async () => {
         const upcomingMovie = await instance.get("/movie/upcoming?language=en-US&page=1")
         setUpcomingMovieList(upcomingMovie.data.results)
     }
       useEffect(() => {
-        getTopRatedMovies();
+        getUpcomingMovies();
       }, []);
 
     return (
         <div>
             <div className="flex justify-between items-center py-8 px-5">
                 <h1 className="fontInter text-2xl semibold">Upcoming</h1>
-                <Link href="/upcoming">
-                <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button></Link>
+                <Button  className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
                 {

@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { useEffect, useState } from "react";
 
 
@@ -18,33 +17,38 @@ type GenreType = {
 
 const GenreSelector: React.FC = () => {
   const [genreList, setGenreList] = useState<GenreType[]>([]);
+  const [value, setValue] = useState<number>();
+
+  // fetch('https://api.themoviedb.org/3/movie/28/lists?language=en-US&page=1')
+
+  const handleChange = (value) => {
+    setValue(value);
+    // console.log(value, 'value')
+  }
 
   const getGenreList = async () => {
     const genres = await instance.get("/genre/movie/list");
     setGenreList(genres.data.genres);
     // console.log(genres.data.genres)
   }
-  
   useEffect(() => {
     getGenreList();
   }, []);
-  
-  // fetch('https://api.themoviedb.org/3/movie/28/lists?language=en-US&page=1')
 
   // const getRelatedMovie = async () => {
-  //   const realtedMovie = await instance.get(`/movie/${genre.id}/lists?language=en-US&page=1`)
+  //   const relatedMovie = await instance.get(`/movie/${value}/similar?language=en-US&page=1`);
+  //   console.log(relatedMovie, "related movie")
   //   setGenreList(relatedMovie.data.genres)
   // }
-   
-const handleChange = (event) => {
-  console.log(event.target.value, 'value')
-}
+  // useEffect(() => {
+  //   getRelatedMovie();
+  // }, [value]);
 
   return (
     <div className="mb-2">
-      <Select onChange={handleChange}>
+      <Select onValueChange={handleChange}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Genre"/>
+          <SelectValue placeholder="Genre" />
         </SelectTrigger>
         <SelectContent>
           {

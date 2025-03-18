@@ -36,6 +36,7 @@ type CrewType = {
 type CastType = {
     name: string;
     job: string;
+    id: number;
 }
 
 // type IdType = {
@@ -156,7 +157,7 @@ export default function Page() {
                         })}
                     </div>
                 </div>
-                <hr></hr>
+                <hr className='text-gray-100'></hr>
                 <div className='flex gap-[58px] mb-1 mt-5'>
                     <p><b>Writers</b></p>
                     <div>
@@ -170,18 +171,18 @@ export default function Page() {
                         })}
                     </div>
                 </div>
-                <hr></hr>
+                <hr className='text-gray-100'></hr>
                 <div className='flex gap-[75px] mb-1 mt-5'>
                     <p><b>Stars</b></p>
                     <div>
                         {castList.slice(0, 4).map((cast) => {
                             return (
-                                <p>{cast.name}</p>
+                                <p key={cast.id}>{cast.name}</p>
                             )
                         })}
                     </div>
                 </div>
-                <hr></hr>
+                <hr className='text-gray-100'></hr>
             </div>
 
             <div>
