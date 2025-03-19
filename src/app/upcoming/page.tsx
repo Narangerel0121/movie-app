@@ -5,7 +5,9 @@ import { MovieType } from "@/app/page";
 import { instance } from "@/app/utils/axios-instance";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-export const Upcoming = () => {
+import { Header } from "@/components/code/Header";
+import { Footer } from "@/components/code/Footer";
+export const FullUpcoming = () => {
     const [upcomingMovieList, setUpcomingMovieList] = useState<MovieType[]>([]);
     const getUpcomingMovies = async () => {
         const upcomingMovie = await instance.get("/movie/upcoming?language=en-US&page=1")
@@ -16,7 +18,8 @@ export const Upcoming = () => {
       }, []);
 
     return (
-        <div>
+        <div className="w-[375px] mx-auto">
+            <Header />
             <div className="flex justify-between items-center py-8 px-5">
                 <h1 className="fontInter text-2xl semibold">Upcoming</h1>
                 <Button  className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
@@ -38,6 +41,9 @@ export const Upcoming = () => {
                     })
                 }
             </div>
+            <Footer />
         </div>
     )
 } 
+
+export default FullUpcoming

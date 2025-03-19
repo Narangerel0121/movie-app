@@ -1,4 +1,5 @@
 
+import { MovieType } from "@/app/page";
 import { instance } from "@/app/utils/axios-instance";
 import {
   Select,
@@ -17,32 +18,33 @@ type GenreType = {
 
 const GenreSelector: React.FC = () => {
   const [genreList, setGenreList] = useState<GenreType[]>([]);
-  const [value, setValue] = useState<number>();
+  const [relatedMovieId, setRelatedMovieId] = useState<number>();
+  const [relatedMovieList, setRelatedMovieList] = useState<MovieType[]>([]);
 
   // fetch('https://api.themoviedb.org/3/movie/28/lists?language=en-US&page=1')
 
   const handleChange = (value) => {
-    setValue(value);
-    // console.log(value, 'value')
+    setRelatedMovieId(value);
+    console.log(value, 'relatedMovieId')
   }
 
   const getGenreList = async () => {
     const genres = await instance.get("/genre/movie/list");
     setGenreList(genres.data.genres);
-    // console.log(genres.data.genres)
+    console.log(genres.data.genres, 'genrelist')
   }
   useEffect(() => {
     getGenreList();
   }, []);
 
-  // const getRelatedMovie = async () => {
-  //   const relatedMovie = await instance.get(`/movie/${value}/similar?language=en-US&page=1`);
-  //   console.log(relatedMovie, "related movie")
-  //   setGenreList(relatedMovie.data.genres)
-  // }
-  // useEffect(() => {
-  //   getRelatedMovie();
-  // }, [value]);
+  const getRelatedMovie = async () => {
+    const relatedMovie = await instance.get(`/discover/movie?language=en&with_genres=${relatedMovieId}&page=${2}`); // eniig oor huudas ruu shiljdeg bolgoh
+    console.log(relatedMovie, "related movie")
+    setRelatedMovieList(relatedMovie.data.results)
+  }
+  useEffect(() => {
+    getRelatedMovie();
+  }, [relatedMovieId]);
 
   return (
     <div className="mb-2">

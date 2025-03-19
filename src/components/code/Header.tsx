@@ -16,7 +16,7 @@ export const Header = () => {
 
   const getFilteredMovie = async () => {
     const filteredMovie = await instance.get(`search/movie?query=${value}&language=en-US&page=1`)
-    console.log(filteredMovie, 'FilteredMovie')
+    // console.log(filteredMovie, 'FilteredMovie')
     setFilteredMovieList(filteredMovie.data.results);
   };
   useEffect(() => {
