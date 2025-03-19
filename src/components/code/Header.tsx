@@ -51,7 +51,7 @@ export const Header = () => {
           <div className="w-[335px] border border-gray-100 rounded-lg mx-auto">
             {
               filteredMovieList.slice(0, 5).map((filteredMovie) => {
-                return <div key={filteredMovie.id} className=" rounded-lg m-3"><Link className="flex gap-2" href={`${filteredMovie.id}`}>
+                return <div key={filteredMovie.id} className=" rounded-lg m-3"><Link className="flex gap-2" href={`/moviedetails/${filteredMovie.id}`}>
                  <img src={`https://image.tmdb.org/t/p/original${filteredMovie?.poster_path}`} className="rounded-lg w-[67px] h-[100px]" />
                   <div className="w-[212px]">
                   <div className="">

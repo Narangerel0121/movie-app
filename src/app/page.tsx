@@ -9,7 +9,6 @@ import { Popular } from "@/components/code/Popular";
 import { Upcoming } from "@/components/code/Upcoming";
 import { TopRated } from "@/components/code/TopRated";
 import GenreSelector from "@/components/code/GenreSelector";
-import { NowPlaying } from "@/components/code/NowPlaying";
 import { Button } from "@/components/ui/button";
 import { Star, Play } from "lucide-react";
 

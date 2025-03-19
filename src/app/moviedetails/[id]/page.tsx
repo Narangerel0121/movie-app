@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { MoveRight, Star } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { MovieType } from '../page';
+import { MovieType } from '../../page';
 import Link from 'next/link';
 
 type ChosenMovieType = {
@@ -64,7 +64,7 @@ export default function Page() {
     const [genreList, setGenreList] = useState<GenreType[]>([]);
 
     const getMovie = async () => {
-        const res = await instance.get(`/movie/${params.moviedetails}?language=en-US`);
+        const res = await instance.get(`/movie/${params.id}?language=en-US`);
         // `/movie/${params.id}?language=en-US`
         // getVideo(res.data.id)
         setMovie(res.data)
@@ -78,25 +78,25 @@ export default function Page() {
     // }
 
     const getSimilarMovieList = async () => {
-        const res = await instance.get(`/movie/${params.moviedetails}/similar?language=en-US`);
+        const res = await instance.get(`/movie/${params.id}/similar?language=en-US`);
         setSimilarMovieList(res.data.results);
         // console.log(res.data.results)
     }
 
     const getCrewList = async () => {
-        const res = await instance.get(`/movie/${params.moviedetails}/credits?language=en-US`);
+        const res = await instance.get(`/movie/${params.id}/credits?language=en-US`);
         setCrewList(res.data.crew);
         // console.log(res.data.crew, 'crew')
     }
 
     const getCastList = async () => {
-        const res = await instance.get(`/movie/${params.moviedetails}/credits?language=en-US`);
+        const res = await instance.get(`/movie/${params.id}/credits?language=en-US`);
         setCastList(res.data.cast);
         // console.log(res.data.cast)
     }
 
     const getGenreList = async () => {
-        const res = await instance.get(`/movie/${params.moviedetails}?language=en-US`);
+        const res = await instance.get(`/movie/${params.id}?language=en-US`);
         setGenreList(res.data.genres)
         // console.log(res.data, "here")
     }

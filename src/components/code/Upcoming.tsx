@@ -25,7 +25,7 @@ export const Upcoming = () => {
             <div className="grid grid-cols-2 px-5 gap-5 ">
                 {
                     upcomingMovieList.slice(0, 10).map((upcomingMovie) => {
-                        return <div key={upcomingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${upcomingMovie.id}`}>
+                        return <div key={upcomingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`/moviedetails/${upcomingMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${upcomingMovie.poster_path}`} className="rounded-t-lg" />
                             <div className="p-2">
                                 <div className="flex items-center gap-0.5 pb-1">

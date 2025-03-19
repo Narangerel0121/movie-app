@@ -21,12 +21,14 @@ import Link from "next/link";
         <div>
             <div className="flex justify-between items-center py-8 px-5">
                 <h1 className="fontInter text-2xl semibold text-[#09090b]">Now Playing</h1>
+                <Link href="/upcoming">
                 <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
+                </Link>
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
                {
                     nowPlayingMovieList.slice(0, 10).map((nowPlayingMovie) => {
-                        return <div key={nowPlayingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${nowPlayingMovie.id}`}>
+                        return <div key={nowPlayingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`/moviedetails/${nowPlayingMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${nowPlayingMovie.poster_path}`} className="rounded-t-lg" />
                             <div className="p-2">
                                 <div className="flex items-center gap-0.5 pb-1">

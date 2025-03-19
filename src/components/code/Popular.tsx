@@ -19,12 +19,14 @@ export const Popular = () => {
         <div>
             <div className="flex justify-between items-center py-8 px-5">
                 <h1 className="fontInter text-2xl semibold text-[#09090b]">Popular</h1>
+                <Link href="/upcoming">
                 <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
+                </Link>
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
                 {
                     popularMovieList.slice(0, 10).map((popularMovie) => {
-                        return <div key={popularMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${popularMovie.id}`}>
+                        return <div key={popularMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`/moviedetails/${popularMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${popularMovie.poster_path}`} className="rounded-t-lg" />
                             <div className="p-2">
                                 <div className="flex items-center gap-0.5 pb-1">
