@@ -8,7 +8,6 @@ import { Header } from "@/components/code/Header";
 import { Popular } from "@/components/code/Popular";
 import { Upcoming } from "@/components/code/Upcoming";
 import { TopRated } from "@/components/code/TopRated";
-import GenreSelector from "@/components/code/GenreSelector";
 import { Button } from "@/components/ui/button";
 import { Star, Play } from "lucide-react";
 
@@ -52,7 +51,6 @@ export default function Home() {
   return (
     <div className="w-[375px] mx-auto">
       <Header />
-      <GenreSelector />
       <div>
         {
           nowPlayingMovieList.slice(0, 1).map((nowPlayingMovie) => {
@@ -71,7 +69,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="fontInter font-normal py-4">{nowPlayingMovie.overview}</p>
-                  <Button className="bg-black text-white p-2 w-[145px] text-sm"><Play size={16} strokeWidth={1} />Watch Trailer</Button>
+                  <Button key={nowPlayingMovie.id} className="bg-black text-white p-2 w-[145px] text-sm"><Play size={16} strokeWidth={1} />Watch Trailer</Button>
                 </div>
               </div>
             </div>

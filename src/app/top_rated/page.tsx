@@ -1,11 +1,13 @@
-import { MoveRight, Star } from "lucide-react"
-import { Button } from "../ui/button"
+"use client"
+import { Star } from "lucide-react"
 import { useEffect, useState } from "react";
 import { MovieType } from "@/app/page";
 import { instance } from "@/app/utils/axios-instance";
 import Link from "next/link";
+import { Header } from "@/components/code/Header";
+import { Footer } from "@/components/code/Footer";
 
-export const TopRated = () => {
+const TopRated = () => {
     const [topRatedMovieList, setTopRatedMovieList] = useState<MovieType[]>([]);
     const getTopRatedMovies = async () => {
         const topRatedMovie = await instance.get("/movie/top_rated?language=en-US&page=1")
@@ -16,12 +18,10 @@ export const TopRated = () => {
       }, []);
 
     return (
-        <div>
+        <div className="w-[375px] mx-auto">
+            <Header />
             <div className="flex justify-between items-center py-8 px-5">
-            <Link href="/top_rated">
                 <h1 className="fontInter text-2xl semibold">Top Rated</h1>
-                <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
-                </Link>
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
                 {
@@ -40,6 +40,9 @@ export const TopRated = () => {
                     })
                 }
             </div>
+            <Footer />
         </div>
     )
 } 
+
+export default TopRated

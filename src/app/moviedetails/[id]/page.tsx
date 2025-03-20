@@ -4,7 +4,7 @@ import { Footer } from '@/components/code/Footer';
 import GenreSelector from '@/components/code/GenreSelector';
 import { Header } from '@/components/code/Header';
 import { Button } from '@/components/ui/button';
-import { MoveRight, Star } from 'lucide-react';
+import { MoveRight, Play, Star } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { MovieType } from '../../page';
@@ -43,21 +43,26 @@ type CastType = {
 //     id: number
 // }
 
-// type VideoType = {
-//     type: string;
-//     results: {
-//         size: number;
-//         type: string;
-//         key: string;
-//     }[]
-// }
+export type VideoType = {
+    id: string;
+    iso_639_1: string;
+    iso_3166_1: string;
+    key: string;
+    name: string;
+    official: true
+    published_at: Date;
+    site: string;
+    size: number;
+    type: string;
+}
+
 
 export default function Page() {
     const params = useParams();
     // console.log(params.moviedetails) // id orj irj baigaa
 
     const [movie, setMovie] = useState<ChosenMovieType>();
-    // const [video, setVideo] = useState<VideoType>();
+    const [video, setVideo] = useState<VideoType>();
     const [similarMovieList, setSimilarMovieList] = useState<MovieType[]>([]);
     const [crewList, setCrewList] = useState<CrewType[]>([]);
     const [castList, setCastList] = useState<CastType[]>([]);
@@ -71,11 +76,16 @@ export default function Page() {
         // console.log(res.data)
     }
 
-    // const getVideo = async (id: IdType) => {
-    //     const res = await instance.get(`/movie/${id}/videos?language=en-US`);
-    //     console.log(res)
-    //     setVideo(res.data)
-    // }
+    const getVideo = async () => {
+        const res = await instance.get(`/movie/${params.id}/videos?language=en-US`);
+        console.log(res.data.results, "video")
+        setVideo(res.data.results[0])
+    }
+
+
+    useEffect(() => {
+        getVideo()
+    }, [video?.key])
 
     const getSimilarMovieList = async () => {
         const res = await instance.get(`/movie/${params.id}/similar?language=en-US`);
@@ -109,11 +119,9 @@ export default function Page() {
         getGenreList();
     }, [])
 
-
     return (
         <div className="w-[375px] mx-auto">
             <Header />
-            <GenreSelector />
             <div className='my-8'>
                 <div className='flex mx-5 justify-between'>
                     <div className='mb-4 font-normal text-sm'>
@@ -128,7 +136,16 @@ export default function Page() {
                         </div>
                     </div>
                 </div>
-                <img src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`} />
+                {/* <video src={`//www.youtube.com/watch?v=${video.key}`} className="rounded-t-lg" /> */}
+                <div className='relative'>
+                    <img src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`} />
+                   <div className='absolute flex gap-3 items-center left-4 bottom-4'>
+                   <a href={`//www.youtube.com/watch?v=${video?.key}`} className='rounded-full h-9 w-9 bg-white flex justify-center items-center'>
+                        <Play size={24} strokeWidth={1} />
+                    </a>
+                    <h4 className='text-white'>Play trailer</h4>
+                   </div>
+                </div>
             </div>
 
             <div className='flex justify-between gap-[34px] mx-5 mb-5'>
