@@ -20,6 +20,9 @@ type ChosenMovieType = {
     poster_path: string;
     backdrop_path: string;
     overview: string;
+    genres: {id: number;
+        name: string;
+    }[];
 }
 
 type GenreType = {
@@ -59,7 +62,7 @@ export type VideoType = {
 
 export default function Page() {
     const params = useParams();
-    // console.log(params.moviedetails) // id orj irj baigaa
+    // console.log(params.id, "params ") // id orj irj baigaa
 
     const [movie, setMovie] = useState<ChosenMovieType>();
     const [video, setVideo] = useState<VideoType>();
@@ -73,12 +76,12 @@ export default function Page() {
         // `/movie/${params.id}?language=en-US`
         // getVideo(res.data.id)
         setMovie(res.data)
-        // console.log(res.data)
+        // console.log(res.data, 'kk')
     }
 
     const getVideo = async () => {
         const res = await instance.get(`/movie/${params.id}/videos?language=en-US`);
-        console.log(res.data.results, "video")
+        // console.log(res.data.results, "video")
         setVideo(res.data.results[0])
     }
 
@@ -90,7 +93,7 @@ export default function Page() {
     const getSimilarMovieList = async () => {
         const res = await instance.get(`/movie/${params.id}/similar?language=en-US`);
         setSimilarMovieList(res.data.results);
-        // console.log(res.data.results)
+        // console.log(res.data.results, "uri similar movie")
     }
 
     const getCrewList = async () => {
@@ -139,12 +142,12 @@ export default function Page() {
                 {/* <video src={`//www.youtube.com/watch?v=${video.key}`} className="rounded-t-lg" /> */}
                 <div className='relative'>
                     <img src={`https://image.tmdb.org/t/p/original${movie?.backdrop_path}`} />
-                   <div className='absolute flex gap-3 items-center left-4 bottom-4'>
-                   <a href={`//www.youtube.com/watch?v=${video?.key}`} className='rounded-full h-9 w-9 bg-white flex justify-center items-center'>
-                        <Play size={24} strokeWidth={1} />
-                    </a>
-                    <h4 className='text-white'>Play trailer</h4>
-                   </div>
+                    <div className='absolute flex gap-3 items-center left-4 bottom-4'>
+                        <a href={`//www.youtube.com/watch?v=${video?.key}`} className='rounded-full h-9 w-9 bg-white flex justify-center items-center'>
+                            <Play size={24} strokeWidth={1} />
+                        </a>
+                        <h4 className='text-white'>Play trailer</h4>
+                    </div>
                 </div>
             </div>
 
@@ -205,12 +208,14 @@ export default function Page() {
             <div>
                 <div className="flex justify-between items-center py-8 px-5">
                     <h1 className="fontInter text-2xl semibold text-[#09090b]">More like this</h1>
-                    <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
+                    <Link href={`/morelikethis/${movie?.genres[0].id}`}>
+                        <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
+                    </Link>
                 </div>
                 <div className="grid grid-cols-2 px-5 gap-5 ">
                     {
                         similarMovieList.slice(0, 2).map((similarMovie) => {
-                            return <div key={similarMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${similarMovie.id}`}>
+                            return <div key={similarMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`/moviedetails/${similarMovie.id}`}>
                                 <img src={`https://image.tmdb.org/t/p/original${similarMovie.poster_path}`} className="rounded-t-lg" />
                                 <div className="p-2">
                                     <div className="flex items-center gap-0.5 pb-1">

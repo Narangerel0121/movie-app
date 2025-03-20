@@ -10,6 +10,8 @@ import { Upcoming } from "@/components/code/Upcoming";
 import { TopRated } from "@/components/code/TopRated";
 import { Button } from "@/components/ui/button";
 import { Star, Play } from "lucide-react";
+import { CarouselDemo } from "@/components/code/Carousel";
+
 
 export type MovieType = {
   adult: boolean;
@@ -29,29 +31,32 @@ export type MovieType = {
 }
 
 export default function Home() {
-  const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
+  // const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
 
-  const getNowPlayingMovies = async () => {
-    const nowPlayingMovies = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
-      {
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`
-        }
-      }
-    );
+  // const getNowPlayingMovies = async () => {
+  //   const nowPlayingMovies = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${ACCESS_TOKEN}`
+  //       }
+  //     }
+  //   );
 
-    setNowPlayingMovieList(nowPlayingMovies.data.results)
-    // console.log(nowPlayingMovies)
-  };
+  //   setNowPlayingMovieList(nowPlayingMovies.data.results)
+  //   // console.log(nowPlayingMovies)
+  // };
 
-  useEffect(() => {
-    getNowPlayingMovies();
-  }, []);
+  // useEffect(() => {
+  //   getNowPlayingMovies();
+  // }, []);
 
   return (
     <div className="w-[375px] mx-auto">
       <Header />
-      <div>
+
+      <CarouselDemo />
+
+      {/* <div>
         {
           nowPlayingMovieList.slice(0, 1).map((nowPlayingMovie) => {
             return <div className="w-[375px] mx-auto">
@@ -75,8 +80,7 @@ export default function Home() {
             </div>
           })
         }
-      </div>
-      {/* <NowPlaying /> */}
+      </div> */}
       <Upcoming />
       <TopRated />
       <Popular />

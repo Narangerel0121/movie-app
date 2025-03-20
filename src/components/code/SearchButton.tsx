@@ -9,7 +9,7 @@ import GenreSelector from "./GenreSelector"
 const SearchButton = () => {
     const [value, setValue] = useState<string>('')
     const [filteredMovieList, setFilteredMovieList] = useState<MovieType[]>([]);
-    const [isDown, setIsDown] = useState(false);
+    const [isChevronDown, setIsChevronDown] = useState(false);
 
     const filterByMovieName = (event) => {
         console.log(event.target.value)
@@ -26,21 +26,25 @@ const SearchButton = () => {
     }, [value])
 
     function handleChange() {
-        setIsDown(true) // functio dotor js l bichne
+        setIsChevronDown(true) // functio dotor js l bichne
     }
 
     return (
         <div>
-            <div className="mb-3 flex items-center ">
-                <ChevronDown onClick={handleChange} className={`${isDown == true ? "hidden" : "block"}`} />
-                <div className={`${isDown == false ? "hidden" : "block"}`}>
-                    <GenreSelector />
+            <div className="flex items-center gap-3 justify-center">
+                <div className="w-9 h-9 border border-gray-200 rounded-lg flex justify-center items-center">
+                    <ChevronDown strokeWidth={1} size={16} onClick={handleChange} />
                 </div>
-                <Search />
-                <input onChange={(event) => filterByMovieName(event)} placeholder="Search..." className="border rounded-full py-1 px-2 placeholder: font-semibold text-sm focus:outline-hidden" />
+                <div className="flex items-center justify-center">
+                    <Search size={16} color="#71717A" strokeWidth={1} />
+                    <input onChange={(event) => filterByMovieName(event)} placeholder="Search..." className="py-1 px-2 placeholder: text-sm font-normal text-[#71717A] focus:outline-hidden" type="search" />
+                </div>
+            </div>
+            <div className={`${isChevronDown == false ? "hidden" : "block"}`}>
+                <GenreSelector />
             </div>
 
-            <div className="w-[335px] border border-gray-100 rounded-lg mx-auto">
+            <div className={`w-[335px] border border-gray-100 rounded-lg mx-auto ${value && value ? "block" : "hidden"}`}>
                 {
                     filteredMovieList.slice(0, 5).map((filteredMovie) => {
                         return <div key={filteredMovie.id} className=" rounded-lg m-3"><Link className="flex gap-2" href={`/moviedetails/${filteredMovie.id}`}>
@@ -50,7 +54,7 @@ const SearchButton = () => {
                                     <h1 className="text-xl text-normal font-semibold">{filteredMovie.title}</h1>
                                     <div className="flex items-center gap-0.5 pb-1">
                                         <Star size={13} color="#FDE047" fill="#FDE047" />
-                                        <p text-xs><b>{filteredMovie.vote_average.toFixed(1)}</b><span className="text-gray-500">/10</span></p>
+                                        <p className="text-xs"><b>{filteredMovie.vote_average.toFixed(1)}</b><span className="text-gray-500">/10</span></p>
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
@@ -63,7 +67,9 @@ const SearchButton = () => {
                         </div>
                     })
                 }
-                <p className="mx-4 my-3 hidden">{`See all results for "${value}"`}</p>
+                <a href="/seeallresults">
+                    <p className={`mx-4 my-3  ${value && value ? "block" : "hidden"}`}>{`See all results for "${value}"`}</p>
+                </a>
             </div>
         </div>
     )
