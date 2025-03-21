@@ -1,34 +1,35 @@
-'use client'
+"use client"
 import { MoveRight, Star } from "lucide-react"
 import { useEffect, useState } from "react";
 import { MovieType } from "@/app/page";
 import { instance } from "@/app/utils/axios-instance";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
- export const NowPlaying = () => {
+import { Button } from "@/components/ui/button";
+import { Header } from "@/components/code/Header";
+import { Footer } from "@/components/code/Footer";
+const FullNowPlaying = () => {
     const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
-    const getNowPlayingMovies = async () => {
 
+    const [page, setPage] = useState(1);
+
+    const getNowPlayingMovies = async () => {
         const nowPlayingMovie = await instance.get("/movie/now_playing?language=en-US&page=1")
-        console.log(nowPlayingMovie)
         setNowPlayingMovieList(nowPlayingMovie.data.results)
-    };
+    }
     useEffect(() => {
         getNowPlayingMovies();
     }, []);
+
     return (
-        <div>
+        <div className="w-[375px] mx-auto">
+            <Header />
             <div className="flex justify-between items-center py-8 px-5">
-                <h1 className="fontInter text-2xl semibold text-[#09090b]">Now Playing</h1>
-                <Link href="/nowplaying">
-                <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
-                </Link>
+                <h1 className="fontInter text-2xl semibold">Now Playing</h1>
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
-               {
-                    nowPlayingMovieList.slice(0, 10).map((nowPlayingMovie) => {
-                        return <div key={nowPlayingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`/moviedetails/${nowPlayingMovie.id}`}>
+                {
+                    nowPlayingMovieList.slice(0, page * 20).map((nowPlayingMovie) => {
+                        return <div key={nowPlayingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${nowPlayingMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${nowPlayingMovie.poster_path}`} className="rounded-t-lg" />
                             <div className="p-2">
                                 <div className="flex items-center gap-0.5 pb-1">
@@ -37,12 +38,14 @@ import Link from "next/link";
                                 </div>
                                 <h1 className="text-sm text-normal">{nowPlayingMovie.title}</h1>
                             </div>
-                            </Link>
+                        </Link>
                         </div>
                     })
                 }
             </div>
+
+            <Footer />
         </div>
     )
-} 
-
+}
+export default FullNowPlaying

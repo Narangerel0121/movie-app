@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/code/Header";
 import { Footer } from "@/components/code/Footer";
-export const FullUpcoming = () => {
+ const FullUpcoming = () => {
     const [upcomingMovieList, setUpcomingMovieList] = useState<MovieType[]>([]);
     const getUpcomingMovies = async () => {
         const upcomingMovie = await instance.get("/movie/upcoming?language=en-US&page=1")

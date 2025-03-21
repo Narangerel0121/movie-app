@@ -12,20 +12,32 @@ import { instance } from "@/app/utils/axios-instance";
 import { MovieType } from "@/app/page";
 import { Button } from "../ui/button";
 import { Play, Star } from "lucide-react";
+import { VideoType } from "@/app/moviedetails/[id]/page";
 
 export function CarouselDemo() {
     const [nowPlayingMovieList, setNowPlayingMovieList] = React.useState<MovieType[]>([]);
+    // const [video, setVideo] = React.useState<VideoType>();
 
     const getNowPlayingMovies = async () => {
         const nowPlayingMovies = await instance.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1');
 
         setNowPlayingMovieList(nowPlayingMovies.data.results)
-        // console.log(nowPlayingMovies)
+        // console.log(nowPlayingMovies, "nowplaying")
     };
 
     React.useEffect(() => {
         getNowPlayingMovies();
     }, []);
+
+    // const getVideo = async () => {
+    //     const res = await instance.get(`/movie/${nowPlayingMovieList[0].id}/videos?language=en-US`);
+    //     console.log(res.data.results, "video")
+    //     setVideo(res.data.results[0])
+    // }
+
+    // React.useEffect(() => {
+    //     getVideo()
+    // }, [video?.key])
 
     return (
         <div>
@@ -60,9 +72,9 @@ export function CarouselDemo() {
                         <CarouselItem key={index}>
                             <div className="">
                                 {
-                                    nowPlayingMovieList.slice(0, 3).map((nowPlayingMovie) => {
-                                        return <Card className="border-hidden"><CardContent className="flex aspect-square items-center justify-center p-6 p-0">
-                                            <div key={nowPlayingMovie.id} className="">
+                                    nowPlayingMovieList.slice(0, 1).map((nowPlayingMovie) => {
+                                        return <Card key={nowPlayingMovie.id} className="border-hidden"><CardContent className="flex aspect-square items-center justify-center p-6 p-0">
+                                            <div className="">
                                                 <img className="w-full" src={`https://image.tmdb.org/t/p/original${nowPlayingMovie.backdrop_path}`} />
                                                 <div className="p-5">
                                                     <div className="flex justify-between">
@@ -76,6 +88,7 @@ export function CarouselDemo() {
                                                         </div>
                                                     </div>
                                                     <p className="fontInter font-normal py-4">{nowPlayingMovie.overview}</p>
+                                                    
                                                     <Button key={nowPlayingMovie.id} className="bg-black text-white p-2 w-[145px] text-sm"><Play size={16} strokeWidth={1} />Watch Trailer</Button>
                                                 </div>
                                             </div>
