@@ -12,7 +12,6 @@ import { instance } from "@/app/utils/axios-instance";
 import { MovieType } from "@/app/page";
 import { Button } from "../ui/button";
 import { Play, Star } from "lucide-react";
-import { VideoType } from "@/app/moviedetails/[id]/page";
 
 export function CarouselDemo() {
     const [nowPlayingMovieList, setNowPlayingMovieList] = React.useState<MovieType[]>([]);

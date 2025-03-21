@@ -11,7 +11,6 @@ import { TopRated } from "@/components/code/TopRated";
 import { Button } from "@/components/ui/button";
 import { Star, Play } from "lucide-react";
 import { CarouselDemo } from "@/components/code/Carousel";
-import { MyVideoDialog } from "@/components/code/VideoDialog";
 import { NowPlaying } from "@/components/code/NowPlaying";
 
 

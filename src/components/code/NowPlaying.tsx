@@ -6,7 +6,7 @@ import { instance } from "@/app/utils/axios-instance";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
- export const NowPlaying = () => {
+export const NowPlaying = () => {
     const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
     const getNowPlayingMovies = async () => {
 
@@ -22,11 +22,11 @@ import Link from "next/link";
             <div className="flex justify-between items-center py-8 px-5">
                 <h1 className="fontInter text-2xl semibold text-[#09090b]">Now Playing</h1>
                 <Link href="/nowplaying">
-                <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
+                    <Button className="py-2 px-4 rounded-md">See more<MoveRight size={16} strokeWidth={1} /></Button>
                 </Link>
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
-               {
+                {
                     nowPlayingMovieList.slice(0, 10).map((nowPlayingMovie) => {
                         return <div key={nowPlayingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`/moviedetails/${nowPlayingMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${nowPlayingMovie.poster_path}`} className="rounded-t-lg" />
@@ -37,12 +37,12 @@ import Link from "next/link";
                                 </div>
                                 <h1 className="text-sm text-normal">{nowPlayingMovie.title}</h1>
                             </div>
-                            </Link>
+                        </Link>
                         </div>
                     })
                 }
             </div>
         </div>
     )
-} 
+}
 
