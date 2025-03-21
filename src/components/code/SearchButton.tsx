@@ -12,7 +12,7 @@ const SearchButton = () => {
     const [isChevronDown, setIsChevronDown] = useState(false);
 
     const filterByMovieName = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
+        // console.log(event.target.value)
         setValue(event.target.value)
     }
 
