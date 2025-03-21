@@ -1,7 +1,7 @@
 import { MovieType } from "@/app/page"
 import { instance } from "@/app/utils/axios-instance"
 import { ChevronDown, MoveRight, Search, Star } from "lucide-react"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import Link from "next/link"
 import GenreSelector from "./GenreSelector"
@@ -11,7 +11,7 @@ const SearchButton = () => {
     const [filteredMovieList, setFilteredMovieList] = useState<MovieType[]>([]);
     const [isChevronDown, setIsChevronDown] = useState(false);
 
-    const filterByMovieName = (event) => {
+    const filterByMovieName = (event: ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
         setValue(event.target.value)
     }
