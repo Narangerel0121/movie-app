@@ -10,8 +10,6 @@ import { Footer } from "@/components/code/Footer";
 const FullNowPlaying = () => {
     const [nowPlayingMovieList, setNowPlayingMovieList] = useState<MovieType[]>([]);
 
-    const [page, setPage] = useState(1);
-
     const getNowPlayingMovies = async () => {
         const nowPlayingMovie = await instance.get("/movie/now_playing?language=en-US&page=1")
         setNowPlayingMovieList(nowPlayingMovie.data.results)
@@ -28,7 +26,7 @@ const FullNowPlaying = () => {
             </div>
             <div className="grid grid-cols-2 px-5 gap-5 ">
                 {
-                    nowPlayingMovieList.slice(0, page * 20).map((nowPlayingMovie) => {
+                    nowPlayingMovieList.slice(0, 20).map((nowPlayingMovie) => {
                         return <div key={nowPlayingMovie.id} className="border border-transparent bg-gray-100 rounded-lg"><Link href={`${nowPlayingMovie.id}`}>
                             <img src={`https://image.tmdb.org/t/p/original${nowPlayingMovie.poster_path}`} className="rounded-t-lg" />
                             <div className="p-2">
